@@ -153,8 +153,9 @@ func (hook Webhook) Parse(r *http.Request, events ...Event) (interface{}, error)
 		return nil, ErrEventNotFound
 	}
 
-	payload, err := ioutil.ReadAll(r.Body)
+	payload, err := io.ReadAll(r.Body)
 	if err != nil || len(payload) == 0 {
+		fmt.Printf("Error parsing payload: %v", err)
 		return nil, ErrParsingPayload
 	}
 

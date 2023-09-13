@@ -154,8 +154,12 @@ func (hook Webhook) Parse(r *http.Request, events ...Event) (interface{}, error)
 	}
 
 	payload, err := io.ReadAll(r.Body)
-	if err != nil || len(payload) == 0 {
-		fmt.Printf("Error parsing payload: %v", err)
+	if err != nil {
+		fmt.Printf("Error parsing payload: %v\n", err)
+		return nil, ErrParsingPayload
+	}
+	if len(payload) == 0 {
+		fmt.Printf("Request body is empty.\n")
 		return nil, ErrParsingPayload
 	}
 
